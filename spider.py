@@ -8,11 +8,11 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 import pandas as pd
 import argparse
-#from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 
 # Global variables (can be set from command line).
 PAGES = 21
-OUTPUT_FILE = 'henry_county.csv'
+OUTPUT_FILE = 'henry_county_ga.csv'
 SHORTEN_MIDDLE_NAME = True
 
 def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 25, fill = '█', printEnd = "\r"):
@@ -35,8 +35,8 @@ def setup_driver():
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox') # required when running as root user. otherwise you would get no sandbox errors.
     chrome_options.add_argument("--window-size=1920,1080")
-    # driver = webdriver.Chrome(ChromeDriverManager().install()) #for when it's not me using this code...
-    driver = se.webdriver.Chrome('/Users/lawrencechillrud/Desktop/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log']) #for when it's not me using this code...
+    #driver = se.webdriver.Chrome('/Users/lawrencechillrud/Desktop/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log']) # for when lawrence is using his own code lol
     return driver
 
 def crawl(driver, url):
@@ -81,11 +81,13 @@ def save_output(scraped_data):
     df = pd.DataFrame.from_records(scraped_data, columns=['First (+ Middle) Name', 'Last Name', 'Birth Year']).sort_values(by='Last Name', ascending=True).reset_index(drop=True)
     df = df.drop_duplicates()
     df.to_csv(OUTPUT_FILE, index=False)
+    print("Saved output to: ", OUTPUT_FILE)
 
 if __name__ == "__main__":
     # Argument parsing:
     args = get_args()
     PAGES = args.num_pages
+    OUTPUT_FILE=args.output_file
      
     # Set up chrome driver:
     driver = setup_driver()
