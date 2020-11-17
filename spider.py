@@ -5,7 +5,6 @@ Author: Lawrence Chillrud <lgc2139@columbia.edu>
 # Package imports:
 import selenium as se
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
 import pandas as pd
 import argparse
 from webdriver_manager.chrome import ChromeDriverManager
@@ -13,7 +12,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 # Global variables (can be set from command line).
 PAGES = 21
 OUTPUT_FILE = 'henry_county_ga.csv'
-SHORTEN_MIDDLE_NAME = True
 
 def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 25, fill = '█', printEnd = "\r"):
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
@@ -35,7 +33,7 @@ def setup_driver():
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox') # required when running as root user. otherwise you would get no sandbox errors.
     chrome_options.add_argument("--window-size=1920,1080")
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log']) #for when it's not me using this code...
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log']) # for when it's not me using this code...
     #driver = se.webdriver.Chrome('/Users/lawrencechillrud/Desktop/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log']) # for when lawrence is using his own code lol
     return driver
 
@@ -87,7 +85,7 @@ if __name__ == "__main__":
     # Argument parsing:
     args = get_args()
     PAGES = args.num_pages
-    OUTPUT_FILE=args.output_file
+    OUTPUT_FILE = args.output_file
      
     # Set up chrome driver:
     driver = setup_driver()
@@ -97,4 +95,3 @@ if __name__ == "__main__":
     
     # Output:
     save_output(scraped_data)
-
