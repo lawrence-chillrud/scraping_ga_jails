@@ -27,7 +27,7 @@ def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, 
 def get_args():
     parser = argparse.ArgumentParser(description='Crawls https://henrycountysheriff.net/Inmate-Search for incarcerated voter information.')
     parser.add_argument('--num_pages', type=int, action='store', default=21, help='The number of pages in the database you would like to scrape. Default = 21 because as of 11/16/20 there were 21 pages of incarcerated persons information.')
-    parser.add_argument('--output_file', action='store', default='henry_county.csv', help="The desired name of the output file. By default = 'henry_county_ga.csv'. Note: must end in '.csv'.")
+    parser.add_argument('--output_file', action='store', default='henry_county_ga.csv', help="The desired name of the output file. By default = 'henry_county_ga.csv'. Note: must end in '.csv'.")
     return parser.parse_args()
 
 def setup_driver():
